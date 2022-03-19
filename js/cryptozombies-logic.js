@@ -1,10 +1,10 @@
 var cryptoZombies;
 var userAccount;
-const showZombieButton = document.querySelector('.showZombieButton');
-const createzombieButton = document.querySelector('.createzombieButton');
-const levelupButton = document.querySelector('.levelupButton');
-const feedOnKittyButton = document.querySelector('.feedOnKittyButton');
-const ownerofButton = document.querySelector('.ownerofButton');
+const showZombieButton = document.getElementById('showZombieButton');
+const createzombieButton = document.getElementById('createzombieButton');
+const levelupButton = document.getElementById('levelupButton');
+const feedOnKittyButton = document.getElementById('feedOnKittyButton');
+const ownerofButton = document.getElementById('ownerofButton');
 
 function startApp() {
 
@@ -100,6 +100,8 @@ function levelUp(zombieId) {
     .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
     .on("receipt", function (receipt) {
         $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
+
+        getZombiesByOwner(userAccount).then(displayZombies);
     })
     .on("error", function (error) {
         $("#txStatus").text(error);
