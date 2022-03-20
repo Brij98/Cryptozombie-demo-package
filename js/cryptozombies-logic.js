@@ -130,25 +130,67 @@ function getOwnerByZombieId(zombieId) {
 }
 
 function display_image(image) {
-    document.getElemebybyId("image").srce = image_url
+    document.getElementById("image").src = image_url;
+}
+
+function getRandomKitty() {
+    const app = document.getElementById('cat')
+
+    const logo = document.createElement('img')
+    logo.src = 'kitty578397.svg'
+
+    const container = document.createElement('div')
+    container.setAttribute('class', 'container')
+
+    app.appendChild(logo)
+    app.appendChild(container)
+
+    var request = new XMLHttpRequest()
+    request.open('GET', 'https://api.cryptokitties.co/kitties/', true)
+    request.onload = function () {
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response)
+    if (request.status >= 200 && request.status < 400) {
+        data.forEach(kitty => {
+        const card = document.createElement('div')
+        card.setAttribute('class', 'card')
+
+        const h1 = document.createElement('h1')
+        h1.textContent = kitty.id
+
+        const p = document.createElement('p')
+        //document.getElementById(catimage).src = cat.image_url_png
+
+        container.appendChild(card)
+        card.appendChild(h1)
+        card.appendChild(p)
+        })
+    } else {
+        const errorMessage = document.createElement('error')
+        errorMessage.textContent = `Sigh, it's not working!`
+        app.appendChild(errorMessage)
+    }
+    }
+
+    request.send()
 }
 
 // UI Popup text input 
-function pop() {
-    let text;
-    let kittyId = prompt("Enter a kitty's ID", "Kitty ID");
-    if (kittyId == null || kittyId == "") {
-        text = "User cancelled the prompt.";
-    } else {
-        text = "Kitty" + kittyId + " was eaten!";
-    }
-    document.getElementById("demo").innerHTML = text;
+// function pop() {
+//     let text;
+//     let kittyId = prompt("Enter a kitty's ID", "Kitty ID");
+//     if (kittyId == null || kittyId == "") {
+//         text = "User cancelled the prompt.";
+//     } else {
+//         text = "Kitty" + kittyId + " was eaten!";
+//     }
+//     document.getElementById("demo").innerHTML = text;
 
-    let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
-    $.get(apiUrl, function(data) {
-        let imgUrl = data.image_url
-    })
-}
+//     let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
+//     $.get(apiUrl, function(data) {
+//         let imgUrl = data.image_url
+//     })
+// }
 
 window.addEventListener('load', async () => {
 // Modern dapp browsers...
@@ -219,24 +261,8 @@ levelupButton.addEventListener('click', () => {
 });
 
 feedOnKittyButton.addEventListener('click', () => {
-    getZombiesByOwner(userAccount)
-        .then(feedOnKitty);
-});
-
-feedButton.addEventListener('click', () => {
-    let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
-
-    fetch(apiUrl)
-        .then(function(response) {
-            return response.json();
-    })
-    .then(function(data){
-        display_image(data.image_url);
-    })
-    .catch(function(error) {
-        console.log("Error: " + error);
-    })
-
+    feedOnKitty(userAccount)
+        .then(levelUp);
 });
 
 ownerofButton.addEventListener('click', () => {

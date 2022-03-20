@@ -11560,4 +11560,9 @@ legend {
   border-bottom: none;
 }
 
+#cat {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
 

@@ -140,16 +140,28 @@
           aria-describedby="button-addon2">
         <button class="btn btn-primary" type="button" id="saveButton">Save Name</button>
       </div>
+
+      <!-- UI POP UP -->
       <!-- <div class="col-lg-4">
         <div class="bs-component">
           <button class="btn btn-lg btn-primary" type="button" onclick="pop()">Feed On Kitty</button>
         </div>
       </div> -->
-      <div class="col-lg-4">
+
+      <!-- <div id="cat" class="col-lg-4">
         <div class="bs-component">
-          <input type="text" id="kittyID" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
             aria-describedby="button-addon2">
-          <button class="btn btn-primary" type="button" id="feedOnKittyButton">Feed On Kitty</button>
+          <button class="btn btn-primary" type="button" onclick="getRandomKitty()">Feed On Kitty</button>
+          <img alt="" id="catimage" />
+        </div>
+      </div> -->
+
+      <div id="cat" class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="feedOnKittyButton" onclick="getRandomKitty()">Feed On Kitty</button>
         </div>
       </div>
 
