@@ -6,12 +6,15 @@ const levelupButton = document.getElementById('levelupButton');
 const feedOnKittyButton = document.getElementById('feedOnKittyButton');
 const ownerofButton = document.getElementById('ownerofButton');
 
+
+
 function startApp() {
 
     //ZombieOwnership contratc address
-    var cryptoZombiesAddress = "0xD72Cc9593eC58CcE517A3Bd3aF119828391ae48C";
+    var cryptoZombiesAddress = "0x7D9d96c68C4f200deeF92ba8D9d988CA6c5a4B54";
     // var cryptoKittiesAddress = "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d";
     cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
+
 //the following code from Lesson 6, chapter 5 is obsolete
 //     var accountInterval = setInterval(function () {
 
@@ -56,12 +59,14 @@ function displayZombies(ids) {
             <li>Wins: ${zombie.winCount}</li>
             <li>Losses: ${zombie.lossCount}</li>
             <li>Ready Time: ${zombie.readyTime}</li>
+            <li>CryptoKitty's DNA: ${zombie.targetDNA}</li>
             </ul>
         </div>`);
         });
     }
 
 }
+
 
 function createRandomZombie(name) {
 
@@ -122,6 +127,23 @@ function getZombiesByOwner(owner) {
 
 function getOwnerByZombieId(zombieId) {
     return cryptoZombies.methods.ownerOf(zombieId).call();
+}
+
+// UI Popup text input 
+function pop() {
+    let text;
+    let kittyId = prompt("Enter a kitty's ID", "Kitty ID");
+    if (kittyId == null || kittyId == "") {
+        text = "User cancelled the prompt.";
+    } else {
+        text = "Kitty" + kittyId + " was eaten!";
+    }
+    document.getElementById("demo").innerHTML = text;
+
+    let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
+    $.get(apiUrl, function(data) {
+        let imgUrl = data.image_url
+    })
 }
 
 window.addEventListener('load', async () => {
@@ -192,9 +214,14 @@ levelupButton.addEventListener('click', () => {
 
 });
 
-// feedOnKittyButton.addEventListener('click', () => {
-//     feedOnKitty(userAccount, 2011363);
-// });
+feedOnKittyButton.addEventListener('click', () => {
+    getZombiesByOwner(userAccount)
+        .then(feedOnKitty);
+});
+
+feedButton.addEventListener('click', () => {
+
+})
 
 ownerofButton.addEventListener('click', () => {
     // $("#txStatus").text(getOwnerByZombieId(parseInt(document.getElementById('ownerofTxt').value)));
