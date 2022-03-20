@@ -9,6 +9,9 @@ const changeZombieNameTxt = document.getElementById('changeZombieNameTxt');
 const changeZombieNameButton = document.getElementById('changeZombieNameButton');
 const changeZombieDNATxt = document.getElementById('changeZombieDNATxt');
 const changeZombieDNAButton = document.getElementById('changeZombieDNAButton');
+const withdrawButton = document.getElementById('withdrawButton');
+const changeFeeTxt = document.getElementById('changeLevelUpFee');
+const changeFeeButton = document.getElementById('changeFeeButton');
 
 function startApp() {
 
@@ -140,7 +143,30 @@ function changeZombieName(zombieId, newName){
         $("#txStatusError").text(error);
     });
 }
+function withdraw(){
+	$("#txStatus").text("Withdrawing ether...");
+	return cryptoZombies.methods.withdraw()
+	.send({ from: userAccount })
+	.on("receipt", function(receipt) {
+		$("#txStatus").text("Ether has been withdrawn");
+	})
+	.on("error", function(error) {
+		$("#txStatusError").text(error);
+	});
+}
 
+//level-up functionality would need to retrieve the set fee
+function setLevelUpFee(fee){
+	$("#txStatus").text("Changing level-up fee...");
+	return cryptoZombies.methods.setLevelUpFee(fee)
+	.send({ from: userAccount })
+	.on("receipt", function(receipt) {
+		$("#txStatus").text("Level-up fee has been altered");
+	})
+	.on("error", function(error) {
+		$("#txStatusError").text(error);
+	});
+}
 function getZombieDetails(id) {
     return cryptoZombies.methods.zombies(id).call()
 }
@@ -241,6 +267,16 @@ changeZombieNameButton.addEventListener('click', () => {
         changeZombieName(result, changeZombieNameTxt.value);
         changeZombieNameTxt.value = "";
     })
+});
+
+changeFeeButton.addEventListener('click', () => {
+		await setLevelUpFee(parseFloat(changeFeeTxt.value));
+		changeFeeTxt.value = "";
+});
+
+withdrawButton.addEventListener('click', () => {
+	withdraw();
+
 });
 
 // feedOnKittyButton.addEventListener('click', () => {
