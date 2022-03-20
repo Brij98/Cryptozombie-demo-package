@@ -129,6 +129,10 @@ function getOwnerByZombieId(zombieId) {
     return cryptoZombies.methods.ownerOf(zombieId).call();
 }
 
+function display_image(image) {
+    document.getElemebybyId("image").srce = image_url
+}
+
 // UI Popup text input 
 function pop() {
     let text;
@@ -220,8 +224,20 @@ feedOnKittyButton.addEventListener('click', () => {
 });
 
 feedButton.addEventListener('click', () => {
+    let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
 
-})
+    fetch(apiUrl)
+        .then(function(response) {
+            return response.json();
+    })
+    .then(function(data){
+        display_image(data.image_url);
+    })
+    .catch(function(error) {
+        console.log("Error: " + error);
+    })
+
+});
 
 ownerofButton.addEventListener('click', () => {
     // $("#txStatus").text(getOwnerByZombieId(parseInt(document.getElementById('ownerofTxt').value)));
