@@ -110,7 +110,7 @@ function feedOnKitty(zombieId, kittyId) {
 function levelUp(zombieId) {
     $("#txStatus").text("Leveling up your zombie...");
     return cryptoZombies.methods.levelUp(zombieId)
-    .send({ from: userAccount, value: web3.utils.toWei(setLevelUpFee, "ether") })
+    .send({ from: userAccount, value: web3.utils.toWei(levelUpFee, "ether") })
     .on("receipt", function (receipt) {
         $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
 
