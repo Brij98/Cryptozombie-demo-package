@@ -12,6 +12,7 @@ const changeZombieDNAButton = document.getElementById('changeZombieDNAButton');
 const withdrawButton = document.getElementById('withdrawButton');
 const changeFeeTxt = document.getElementById('changeLevelUpFee');
 const changeFeeButton = document.getElementById('changeFeeButton');
+const levelUpFee = "0.001";
 
 
 
@@ -109,7 +110,7 @@ function feedOnKitty(zombieId, kittyId) {
 function levelUp(zombieId) {
     $("#txStatus").text("Leveling up your zombie...");
     return cryptoZombies.methods.levelUp(zombieId)
-    .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
+    .send({ from: userAccount, value: web3.utils.toWei(setLevelUpFee, "ether") })
     .on("receipt", function (receipt) {
         $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
 
@@ -339,6 +340,7 @@ changeZombieNameButton.addEventListener('click', () => {
 
 changeFeeButton.addEventListener('click', () => {
     setLevelUpFee(parseFloat(changeFeeTxt.value));
+    levelUpFee = changeFeeTxt.value;
 	changeFeeTxt.value = "";
 });
 
