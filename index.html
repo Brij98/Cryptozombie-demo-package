@@ -4,205 +4,188 @@
 
 <head>
   <meta charset="UTF-8">
+
   <title>CryptoZombies front-end</title>
-<link rel="icon" href="favicon.ico">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <!-- <link rel="stylesheet" href="../_vendor/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../_vendor/prismjs/themes/prism-okaidia.css">
+  <link rel="stylesheet" href="../_assets/css/custom.min.css"> -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-23019901-1');
+  </script>
+
+  <link rel="icon" href="favicon.ico">
   <script language="javascript" type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script language="javascript" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
+  <script language="javascript" type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
   <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
+  <script language="javascript" type="text/javascript" src="js/crptozombies-logic.js"></script>
+
 </head>
 
 <body>
-  <div id="txStatus"></div>
-  <div id="zombies"></div>
+  <div class="fixed-top navbar-dark bg-dark">
+  </div>
 
-  <button class="showZombieButton">Show Zombies</button>
-  <button class="createzombieButton">Create Zombie</button>
-  <button class="levelupButton">Level Up</button>
+  <!-- DApp Title Begin -->
 
-  <script>
-
-    var cryptoZombies;
-    var userAccount;
-    const showZombieButton = document.querySelector('.showZombieButton');
-    const createzombieButton = document.querySelector('.createzombieButton');
-    const levelupButton = document.querySelector('.levelupButton');
-
-    function startApp() {
-	
-      //ZombieOwnership contratc address
-      var cryptoZombiesAddress = "0xD72Cc9593eC58CcE517A3Bd3aF119828391ae48C";
-
-      cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
+  <div class="container">
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="text-center">
+          <h1>Crypto Zombies DApp 1</h1>
+          <p class="lead">Crypto Zombies DApp is a front-end application that interacts with smart-contracts in the
+            back-end</p>
+        </div>
+        <div class="text-center">
 
 
- //the following code from Lesson 6, chapter 5 is obsolete
- //     var accountInterval = setInterval(function () {
-
-  //      if (web3.eth.accounts[0] !== userAccount) {
-          //userAccount = web3.eth.accounts[0];
-
-     //     getZombiesByOwner(userAccount)
-      //      .then(displayZombies);
-      //  }
-     // }, 100);
-
-      cryptoZombies.events.Transfer({ filter: { _to: userAccount } })
-        .on("data", function (event) {
-          let data = event.returnValues;
-          getZombiesByOwner(userAccount).then(displayZombies);
-        }).on("error", console.error);
-    }
-
-    function displayZombies(ids) {
-      $("#zombies").empty();
-      for (id of ids) {
-
-        getZombieDetails(id)
-          .then(function (zombie) {
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="bs-component justify-content-center">
+                <p class="text-center" id="txStatus"></p>
+              </div>
+            </div>
+          </div>
 
 
-            $("#zombies").append(`<div class="zombie">
-              <ul>
-                <li>Name: ${zombie.name}</li>
-                <li>DNA: ${zombie.dna}</li>
-                <li>Level: ${zombie.level}</li>
-                <li>Wins: ${zombie.winCount}</li>
-                <li>Losses: ${zombie.lossCount}</li>
-                <li>Ready Time: ${zombie.readyTime}</li>
-              </ul>
-            </div>`);
-          });
-      }
+          <div class="sponsor">
+            <!-- <script async src="https://cdn.carbonads.com/carbon.js?serve=CKYIE23N&placement=bootswatchcom"
+              id="_carbonads_js"></script> -->
+            <img src="preview-zombie.png" alt="Zombie">
+          </div>
 
-    }
-
-    function createRandomZombie(name) {
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="bs-component justify-content-center">
+                <p class="text-center" id="zombies"></p>
+              </div>
+            </div>
+          </div>
 
 
-      $("#txStatus").text("Creating new zombie on the blockchain. This may take a while...");
+        </div>
+      </div>
+    </div>
 
-      return cryptoZombies.methods.createRandomZombie(name)
-        .send({ from: userAccount })
-        .on("receipt", function (receipt) {
-          $("#txStatus").text("Successfully created " + name + "!");
+    <!-- DApp title end -->
 
-          getZombiesByOwner(userAccount).then(displayZombies);
-        })
-        .on("error", function (error) {
+    <!-- create zombie Begin -->
 
-          $("#txStatus").text(error);
-        });
-    }
+    <div class="bs-docs-section clearfix">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="page-header">
+            <!--<h2 id="navbars">Test Zombie Factory Smart Contract</h2>-->
+          </div>
+        </div>
+      </div>
+    </div>
 
-    function feedOnKitty(zombieId, kittyId) {
-      $("#txStatus").text("Eating a kitty. This may take a while...");
-      return cryptoZombies.methods.feedOnKitty(zombieId, kittyId)
-        .send({ from: userAccount })
-        .on("receipt", function (receipt) {
-          $("#txStatus").text("Ate a kitty and spawned a new Zombie!");
-          getZombiesByOwner(userAccount).then(displayZombies);
-        })
-        .on("error", function (error) {
-          $("#txStatus").text(error);
-        });
-    }
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <p class="bs-component">
+        <div class="d-grid gap-2">
+          <button class="btn btn-lg btn-primary" type="button" id="createzombieButton">Create Zombie</button>
+        </div>
+        </p>
+      </div>
+    </div>
 
-    function levelUp(zombieId) {
-      $("#txStatus").text("Leveling up your zombie...");
-      return cryptoZombies.methods.levelUp(zombieId)
-        .send({ from: userAccount, value: web3.utils.toWei("0.001", "ether") })
-        .on("receipt", function (receipt) {
-          $("#txStatus").text("Power overwhelming! Zombie successfully leveled up");
-        })
-        .on("error", function (error) {
-          $("#txStatus").text(error);
-        });
-    }
+    <!-- create zombie End -->
 
-    function getZombieDetails(id) {
-      return cryptoZombies.methods.zombies(id).call()
-    }
+  </br>
 
-    function zombieToOwner(id) {
-      return cryptoZombies.methods.zombieToOwner(id).call()
-    }
+    <!-- Test Zombie Helper Begin -->
 
-    function getZombiesByOwner(owner) {
-      return cryptoZombies.methods.getZombiesByOwner(owner).call()
-    }
-
-    window.addEventListener('load', async () => {
-    // Modern dapp browsers...
-    if (window.ethereum) {
-        window.web3 = new Web3(ethereum);
-        try {
-            // Request account access if needed
-            const accounts = await ethereum.enable();
-            // Acccounts now exposed
-            userAccount = accounts[0];
-            startApp()
-        } catch (error) {
-            // User denied account access...
-        }
-    }
-    // Legacy dapp browsers...
-    else if (window.web3) {
-        window.web3 = new Web3(web3.currentProvider);
-        // Acccounts always exposed
-        userAccount = web3.eth.accounts[0];
-        startApp()
-    }
-    // Non-dapp browsers...
-    else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
-    }
-   });
- 
-   //the following code from Lesson 6, chapter 2 is obsolete
-   //metamask no longer inject web3 since early 2021
-   //window.addEventListener('load', function () {
-
-  //    if (typeof web3 !== 'undefined') {
-   //     web3js = new Web3(web3.currentProvider);
-   //   } else {
-
-    //  }
+    <div class="bs-docs-section clearfix">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <div class="page-header">
+            <h2 id="navbars">Test Zombie Helper Smart Contract</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-    //  startApp()
+    <div class="row">
 
-  //  }) 
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <button class="btn btn-lg btn-primary" type="button" id="showZombieButton">Show Zombies</button>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <button class="btn btn-lg btn-primary" type="button" id="levelupButton">Level Up Zombie</button>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="ownerofTxt" class="form-control" placeholder="Zombie Id" aria-label="Zombie's Id"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="ownerofButton">View Zombie's Owner</button>
+        </div>
+      </div>
+      <div class="bs-component">
+        <input type="text" id="changeName" class="form-control" placeholder="Assign a new name and press 'Save'" aria-label="New Name"
+          aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="button" id="saveButton">Save Name</button>
+      </div>
 
-   ethereum.on('accountsChanged', (accounts) => {
-       window.location.reload();
-   });
+      <!-- UI POP UP -->
+      <!-- <div class="col-lg-4">
+        <div class="bs-component">
+          <button class="btn btn-lg btn-primary" type="button" onclick="pop()">Feed On Kitty</button>
+        </div>
+      </div> -->
 
-   ethereum.on('chainChanged', (chainId) => {
-       window.location.reload(); 
-   });  
+      <!-- <div id="cat" class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" onclick="getRandomKitty()">Feed On Kitty</button>
+          <img alt="" id="catimage" />
+        </div>
+      </div> -->
 
- 
-    createzombieButton.addEventListener('click', () => {
-      createRandomZombie(userAccount);
+      <div id="cat" class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="feedOnKittyButton" onclick="getRandomKitty()">Feed On Kitty</button>
+        </div>
+      </div>
 
-    });
-
-    showZombieButton.addEventListener('click', () => {
-      getZombiesByOwner(userAccount)
-            .then(displayZombies);
-
-    });
-
-    levelupButton.addEventListener('click', () => {
-      getZombiesByOwner(userAccount)
-            .then(levelUp);
-
-    });
+    </div>
 
 
+    <!-- Test Zombie Helper End -->
 
-  </script>
+
+    <!-- provided code start -->
+
+    <!-- <div id="txStatus"></div> -->
+    <!-- <div id="zombies"></div> -->
+
+    <!-- <button class="showZombieButton">Show Zombies</button> -->
+    <!-- <button class="createzombieButton">Create Zombie</button> -->
+    <!-- <button class="levelupButton">Level Up</button> -->
+    <!--<button class="feedOnKittyButton">Feed On Kitty</button>-->
+    <!-- <button class="ownerofButton">Owner Of Zombie</button> -->
+    <!-- <input type="text" id="ownerofTxt"> -->
+
+    <!-- provided code end -->
+
 </body>
+<script language="javascript" type="text/javascript" src="js/cryptozombies-logic.js"></script>
 
 </html>
