@@ -16,7 +16,7 @@ const changeFeeButton = document.getElementById('changeFeeButton');
 function startApp() {
 
     //ZombieOwnership contratc address
-    var cryptoZombiesAddress = "0xD72Cc9593eC58CcE517A3Bd3aF119828391ae48C";
+    var cryptoZombiesAddress = "0x7D9d96c68C4f200deeF92ba8D9d988CA6c5a4B54";
     // var cryptoKittiesAddress = "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d";
     cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
 //the following code from Lesson 6, chapter 5 is obsolete
@@ -270,7 +270,6 @@ changeZombieNameButton.addEventListener('click', () => {
 });
 
 changeFeeButton.addEventListener('click', () => {
-		await setLevelUpFee(parseFloat(changeFeeTxt.value));
 		changeFeeTxt.value = "";
 });
 
