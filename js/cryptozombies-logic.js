@@ -338,7 +338,8 @@ changeZombieNameButton.addEventListener('click', () => {
 });
 
 changeFeeButton.addEventListener('click', () => {
-		changeFeeTxt.value = "";
+    setLevelUpFee(parseFloat(changeFeeTxt.value));
+	changeFeeTxt.value = "";
 });
 
 withdrawButton.addEventListener('click', () => {
