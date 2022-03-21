@@ -26,6 +26,7 @@
   <script language="javascript" type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.2.7-rc.0/web3.min.js"></script>
   <script language="javascript" type="text/javascript" src="cryptozombies_abi.js"></script>
+  <script language="javascript" type="text/javascript" src="js/crptozombies-logic.js"></script>
 
 </head>
 
@@ -39,7 +40,7 @@
     <div class="page-header" id="banner">
       <div class="row">
         <div class="text-center">
-          <h1>Crypto Zombies DApp</h1>
+          <h1>Crypto Zombies DApp 1</h1>
           <p class="lead">Crypto Zombies DApp is a front-end application that interacts with smart-contracts in the
             back-end</p>
         </div>
@@ -91,7 +92,7 @@
       <div class="row">
         <div class="col-lg-12 text-center">
           <div class="page-header">
-            <h2 id="navbars">Test Zombie Factory Smart Contract</h2>
+            <!--<h2 id="navbars">Test Zombie Factory Smart Contract</h2>-->
           </div>
         </div>
       </div>
@@ -169,6 +170,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-lg-4">
         <div class="bs-component">
           <div class="input-group mb-3">
@@ -197,6 +199,37 @@
         </div>
       </div> -->
 
+      <div class="bs-component">
+        <input type="text" id="changeName" class="form-control" placeholder="Assign a new name and press 'Save'" aria-label="New Name"
+          aria-describedby="button-addon2">
+        <button class="btn btn-primary" type="button" id="saveButton">Save Name</button>
+      </div>
+
+      <!-- UI POP UP -->
+      <!-- <div class="col-lg-4">
+        <div class="bs-component">
+          <button class="btn btn-lg btn-primary" type="button" onclick="pop()">Feed On Kitty</button>
+        </div>
+      </div> -->
+
+      <!-- <div id="cat" class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" onclick="getRandomKitty()">Feed On Kitty</button>
+          <img alt="" id="catimage" />
+        </div>
+      </div> -->
+
+      <div id="cat" class="col-lg-4">
+        <div class="bs-component">
+          <input type="text" id="kittyId" class="form-control" placeholder="Kitty ID" aria-label="Kitty ID"
+            aria-describedby="button-addon2">
+          <button class="btn btn-primary" type="button" id="feedOnKittyButton" onclick="getRandomKitty()">Feed On Kitty</button>
+        </div>
+      </div>
+
+
     </div>
 
 
@@ -211,7 +244,7 @@
     <!-- <button class="showZombieButton">Show Zombies</button> -->
     <!-- <button class="createzombieButton">Create Zombie</button> -->
     <!-- <button class="levelupButton">Level Up</button> -->
-    <button class="feedOnKittyButton">Feed On Kitty</button>
+    <!--<button class="feedOnKittyButton">Feed On Kitty</button>-->
     <!-- <button class="ownerofButton">Owner Of Zombie</button> -->
     <!-- <input type="text" id="ownerofTxt"> -->
 

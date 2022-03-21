@@ -13,12 +13,15 @@ const withdrawButton = document.getElementById('withdrawButton');
 const changeFeeTxt = document.getElementById('changeLevelUpFee');
 const changeFeeButton = document.getElementById('changeFeeButton');
 
+
+
 function startApp() {
 
     //ZombieOwnership contratc address
     var cryptoZombiesAddress = "0x7D9d96c68C4f200deeF92ba8D9d988CA6c5a4B54";
     // var cryptoKittiesAddress = "0x06012c8cf97BEaD5deAe237070F9587f8E7A266d";
     cryptoZombies = new web3.eth.Contract(cryptoZombiesABI, cryptoZombiesAddress);
+
 //the following code from Lesson 6, chapter 5 is obsolete
 //     var accountInterval = setInterval(function () {
 
@@ -63,12 +66,14 @@ function displayZombies(ids) {
             <li>Wins: ${zombie.winCount}</li>
             <li>Losses: ${zombie.lossCount}</li>
             <li>Ready Time: ${zombie.readyTime}</li>
+            <li>CryptoKitty's DNA: ${zombie.targetDNA}</li>
             </ul>
         </div>`);
         });
     }
 
 }
+
 
 function createRandomZombie(name) {
 
@@ -183,6 +188,69 @@ function getOwnerByZombieId(zombieId) {
     return cryptoZombies.methods.ownerOf(zombieId).call();
 }
 
+function display_image(image) {
+    document.getElementById("image").src = image_url;
+}
+
+function getRandomKitty() {
+    const app = document.getElementById('cat')
+
+    const logo = document.createElement('img')
+    logo.src = 'kitty578397.svg'
+
+    const container = document.createElement('div')
+    container.setAttribute('class', 'container')
+
+    app.appendChild(logo)
+    app.appendChild(container)
+
+    var request = new XMLHttpRequest()
+    request.open('GET', 'https://api.cryptokitties.co/kitties/', true)
+    request.onload = function () {
+    // Begin accessing JSON data here
+    var data = JSON.parse(this.response)
+    if (request.status >= 200 && request.status < 400) {
+        data.forEach(kitty => {
+        const card = document.createElement('div')
+        card.setAttribute('class', 'card')
+
+        const h1 = document.createElement('h1')
+        h1.textContent = kitty.id
+
+        const p = document.createElement('p')
+        //document.getElementById(catimage).src = cat.image_url_png
+
+        container.appendChild(card)
+        card.appendChild(h1)
+        card.appendChild(p)
+        })
+    } else {
+        const errorMessage = document.createElement('error')
+        errorMessage.textContent = `Sigh, it's not working!`
+        app.appendChild(errorMessage)
+    }
+    }
+
+    request.send()
+}
+
+// UI Popup text input 
+// function pop() {
+//     let text;
+//     let kittyId = prompt("Enter a kitty's ID", "Kitty ID");
+//     if (kittyId == null || kittyId == "") {
+//         text = "User cancelled the prompt.";
+//     } else {
+//         text = "Kitty" + kittyId + " was eaten!";
+//     }
+//     document.getElementById("demo").innerHTML = text;
+
+//     let apiUrl = "https://api.cryptokitties.co/kitties/" + kittyId;
+//     $.get(apiUrl, function(data) {
+//         let imgUrl = data.image_url
+//     })
+// }
+
 window.addEventListener('load', async () => {
 // Modern dapp browsers...
 if (window.ethereum) {
@@ -281,6 +349,12 @@ withdrawButton.addEventListener('click', () => {
 // feedOnKittyButton.addEventListener('click', () => {
 //     feedOnKitty(userAccount, 2011363);
 // });
+
+feedOnKittyButton.addEventListener('click', () => {
+    feedOnKitty(userAccount)
+        .then(levelUp);
+});
+
 
 ownerofButton.addEventListener('click', () => {
     // $("#txStatus").text(getOwnerByZombieId(parseInt(document.getElementById('ownerofTxt').value)));
