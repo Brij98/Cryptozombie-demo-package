@@ -50,7 +50,16 @@
           <div class="row justify-content-center">
             <div class="col-lg-8">
               <div class="bs-component justify-content-center">
-                <p class="text-center" id="txStatus"></p>
+                <p class="text-center text-success" id="txStatus"></p>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="row justify-content-center">
+            <div class="col-lg-8">
+              <div class="bs-component justify-content-center">
+                <p class="text-center text-danger" id="txStatusError"></p>
               </div>
             </div>
           </div>
@@ -101,7 +110,7 @@
 
     <!-- create zombie End -->
 
-  </br>
+    </br>
 
     <!-- Test Zombie Helper Begin -->
 
@@ -130,11 +139,66 @@
       </div>
       <div class="col-lg-4">
         <div class="bs-component">
-          <input type="text" id="ownerofTxt" class="form-control" placeholder="Zombie Id" aria-label="Zombie's Id"
-            aria-describedby="button-addon2">
-          <button class="btn btn-primary" type="button" id="ownerofButton">View Zombie's Owner</button>
+          <div class="input-group mb-3">
+            <input type="text" id="ownerofTxt" class="form-control" placeholder="Zombie Id" aria-label="Zombie's Id"
+              aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="ownerofButton">View Zombie's Owner</button>
+          </div>
         </div>
       </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <div class="input-group mb-3">
+            <input type="text" id="changeZombieNameTxt" class="form-control" placeholder="New Zombie Name" aria-label="Zombie's name"
+              aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="changeZombieNameButton">Set Zombie's New Name</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <div class="input-group mb-3">
+            <input type="text" id="changeZombieDNATxt" class="form-control" placeholder="Zombie DNA" aria-label="Zombie's DNA"
+              aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="changeZombieDNAButton">Set Zombie's New DNA</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="bs-component">
+          <div class="input-group mb-3">
+            <button class="btn btn-primary" type="button" id="withdrawButton">Withdraw</button>
+          </div>
+        </div>
+      </div>
+	  
+	    <div class="col-lg-4">
+        <div class="bs-component">
+          <div class="input-group mb-3">
+			      <input type="text" id="changeLevelUpFee" class="form-control" placeholder="Level-Up Fee" aria-label="Zombie's Levelling Fee"
+              aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="changeFeeButton">Set Level-Up Fee</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-lg-4">
+        <div class="bs-component">
+          <div class="input-group mb-3">
+            <input type="text" id="ownerofTxt" class="form-control" placeholder="Zombie Id" aria-label="Zombie's Id"
+              aria-describedby="button-addon2">
+            <button class="btn btn-primary" type="button" id="ownerofButton">View Zombie's Owner</button>
+          </div>
+        </div>
+      </div> -->
+
       <div class="bs-component">
         <input type="text" id="changeName" class="form-control" placeholder="Assign a new name and press 'Save'" aria-label="New Name"
           aria-describedby="button-addon2">
@@ -164,6 +228,7 @@
           <button class="btn btn-primary" type="button" id="feedOnKittyButton" onclick="getRandomKitty()">Feed On Kitty</button>
         </div>
       </div>
+
 
     </div>
 

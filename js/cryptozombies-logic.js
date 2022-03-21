@@ -5,6 +5,13 @@ const createzombieButton = document.getElementById('createzombieButton');
 const levelupButton = document.getElementById('levelupButton');
 const feedOnKittyButton = document.getElementById('feedOnKittyButton');
 const ownerofButton = document.getElementById('ownerofButton');
+const changeZombieNameTxt = document.getElementById('changeZombieNameTxt');
+const changeZombieNameButton = document.getElementById('changeZombieNameButton');
+const changeZombieDNATxt = document.getElementById('changeZombieDNATxt');
+const changeZombieDNAButton = document.getElementById('changeZombieDNAButton');
+const withdrawButton = document.getElementById('withdrawButton');
+const changeFeeTxt = document.getElementById('changeLevelUpFee');
+const changeFeeButton = document.getElementById('changeFeeButton');
 
 
 
@@ -82,7 +89,7 @@ function createRandomZombie(name) {
     })
     .on("error", function (error) {
 
-        $("#txStatus").text(error);
+        $("#txStatusError").text(error);
     });
 }
 
@@ -95,7 +102,7 @@ function feedOnKitty(zombieId, kittyId) {
         getZombiesByOwner(userAccount).then(displayZombies);
     })
     .on("error", function (error) {
-        $("#txStatus").text(error);
+        $("#txStatusError").text(error);
     });
 }
 
@@ -109,10 +116,62 @@ function levelUp(zombieId) {
         getZombiesByOwner(userAccount).then(displayZombies);
     })
     .on("error", function (error) {
-        $("#txStatus").text(error);
+        $("#txStatusError").text(error);
     });
 }
 
+function changeZombieDNA(zombieId, newDNA) {
+    $("#txStatus").text("Changing your zombie's DNA...");
+    return cryptoZombies.methods.changeDna(zombieId, newDNA)
+    .send({ from: userAccount })
+    .on("receipt", function (receipt) {
+        $("#txStatus").text("Zombie's DNA successfully changed");
+
+        getZombiesByOwner(userAccount).then(displayZombies);
+    })
+    .on("error", function (error) {
+        $("#txStatusError").text(error);
+    });
+}
+
+
+function changeZombieName(zombieId, newName){
+    $("#txStatus").text("Changing your zombie's Name...");
+    return cryptoZombies.methods.changeName(zombieId, newName)
+    .send({ from: userAccount })
+    .on("receipt", function (receipt) {
+        $("#txStatus").text("Zombie's Name successfully changed");
+
+        getZombiesByOwner(userAccount).then(displayZombies);
+    })
+    .on("error", function (error) {
+        $("#txStatusError").text(error);
+    });
+}
+function withdraw(){
+	$("#txStatus").text("Withdrawing ether...");
+	return cryptoZombies.methods.withdraw()
+	.send({ from: userAccount })
+	.on("receipt", function(receipt) {
+		$("#txStatus").text("Ether has been withdrawn");
+	})
+	.on("error", function(error) {
+		$("#txStatusError").text(error);
+	});
+}
+
+//level-up functionality would need to retrieve the set fee
+function setLevelUpFee(fee){
+	$("#txStatus").text("Changing level-up fee...");
+	return cryptoZombies.methods.setLevelUpFee(fee)
+	.send({ from: userAccount })
+	.on("receipt", function(receipt) {
+		$("#txStatus").text("Level-up fee has been altered");
+	})
+	.on("error", function(error) {
+		$("#txStatusError").text(error);
+	});
+}
 function getZombieDetails(id) {
     return cryptoZombies.methods.zombies(id).call()
 }
@@ -260,10 +319,42 @@ levelupButton.addEventListener('click', () => {
 
 });
 
+changeZombieDNAButton.addEventListener('click', () => {
+    // getZombiesByOwner(userAccount)
+    //     .then(changeZombieDNA(userAccount, changeZombieDNATxt.value));
+    getZombiesByOwner(userAccount)
+    .then(function (result) {
+        changeZombieDNA(result, parseInt(changeZombieDNATxt.value));
+        changeZombieDNATxt.value = "";
+    });
+});
+
+changeZombieNameButton.addEventListener('click', () => {
+    getZombiesByOwner(userAccount)
+    .then(function (result) {
+        changeZombieName(result, changeZombieNameTxt.value);
+        changeZombieNameTxt.value = "";
+    })
+});
+
+changeFeeButton.addEventListener('click', () => {
+		changeFeeTxt.value = "";
+});
+
+withdrawButton.addEventListener('click', () => {
+	withdraw();
+
+});
+
+// feedOnKittyButton.addEventListener('click', () => {
+//     feedOnKitty(userAccount, 2011363);
+// });
+
 feedOnKittyButton.addEventListener('click', () => {
     feedOnKitty(userAccount)
         .then(levelUp);
 });
+
 
 ownerofButton.addEventListener('click', () => {
     // $("#txStatus").text(getOwnerByZombieId(parseInt(document.getElementById('ownerofTxt').value)));
